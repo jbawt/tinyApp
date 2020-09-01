@@ -49,8 +49,15 @@ app.get("/u/:shortURL", (req, res) => {
   res.redirect(longURL);
 });
 
+// deletes stored urls and redirects to main url page
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls");
+});
+
+// edits long urls
+app.post("/urls/:id", (req, res) => {
+  urlDatabase[req.params.id] = req.body.longURL;
   res.redirect("/urls");
 });
 
