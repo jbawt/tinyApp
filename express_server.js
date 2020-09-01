@@ -30,8 +30,15 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);
-  res.send("okay");
+  let key = generateRandomString();
+  let templateVars = { shortURL: key, longURL: req.body.longURL };
+  urlDatabase[key] = req.body.longURL;
+  res.render("urls_show", templateVars);
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
 });
 
 app.listen(PORT, () => {
