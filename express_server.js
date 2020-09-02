@@ -21,18 +21,24 @@ const urlDatabase = {
 
 // shows all stored shortened urls corresponding to their long url pairs
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = { urls: urlDatabase, username: req.cookies["username"]};
   res.render("urls_index", templateVars);
 });
 
 // renders page for creating new shortened url
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  let templateVars = { username: req.cookies["username"] }
+  res.render("urls_new", templateVars);
 });
 
 app.post("/login", (req, res) => {
   res.cookie("username", req.body.username);
   // console.log(req.body);
+  res.redirect("/urls");
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("username", req.body.username);
   res.redirect("/urls");
 })
 
