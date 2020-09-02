@@ -31,8 +31,8 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
     </div>
-    <% if (username) { %> 
-      <h4 class="username">Logged in as: <%= username %></h4>
+    <% if (user_id) { %> 
+      <h4 class="username">Logged in as: <%= user_id %></h4>
       <form method="POST" action="/logout">
         <button class="logBttn" type="submit">Logout</button>
       </form>
