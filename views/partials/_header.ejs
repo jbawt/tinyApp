@@ -6,16 +6,10 @@
     padding: 5px 10px;
     color: black;
     opacity: 0.8;
+    margin: 10px;
   }
-  .username {
+  .userId {
     margin-right: 25px;
-  }
-  input {
-    border-radius: 5px;
-    margin-right: 25px;
-  }
-  form {
-    height: 90%;
   }
 </style>
 
@@ -31,16 +25,14 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
     </div>
-    <% if (user_id) { %> 
-      <h4 class="username">Logged in as: <%= user_id %></h4>
+    <% if (userId) { %> 
+      <h4 class="userId">Logged in as: <%= userId %></h4>
       <form method="POST" action="/logout">
         <button class="logBttn" type="submit">Logout</button>
       </form>
     <% } else { %> 
-    <form method="POST" action="/login">
-      <input type="text" name="username" placeholder="username">
-      <button class="logBttn" type="submit">Login</button>
-    </form>
+      <a href="/login"><button class="logBttn" type="button">Login</button></a>
+      <a href="/register"><button class="logBttn" type="button">Register</button></a>
   <% } %> 
   </nav>
 </header>

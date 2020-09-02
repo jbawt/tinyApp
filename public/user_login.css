@@ -50,27 +50,10 @@ form {
   align-items: center;
   text-align: center;
   border-radius: 10px;
-  margin: auto;
+  margin: 50px auto;
   padding: 60px 5px;
   position: relative;
-  bottom: 23px;
-}
-
-.info-div {
-  color: gray;
-  background-color: white;
-  width: 300px;
-  height: 250px;
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-radius: 10px;
-  margin: auto;
-  padding: 40px 5px;
-  position: relative;
-  top: 100px;
-  left: 40px;
+  top: 10px;
 }
 
 .img-div {
@@ -118,4 +101,3 @@ form {
   background-color: #28a745;
   color: white;
 }
-
