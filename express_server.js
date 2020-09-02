@@ -11,6 +11,7 @@ const generateRandomString = () => {
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 // url storage
@@ -26,6 +27,12 @@ app.get("/urls", (req, res) => {
     username: req.cookies["username"]
   };
   res.render("urls_index", templateVars);
+});
+
+// renders registration page
+app.get("/register", (req, res) => {
+  let templateVars = { username: req.cookies.username };
+  res.render("user_registration", templateVars);
 });
 
 // renders page for creating new shortened url

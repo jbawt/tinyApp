@@ -1,0 +1,109 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+main {
+  height: 100%;
+  margin: auto;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+form {
+  margin: 10px auto 10px auto;
+  align-self: flex-start;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-div {
+  display: inline-block;
+  height: 600px;
+  width: 800px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  top: 20px;
+  left: 20px;
+  background-color: #28a745;
+  border-radius: 10px;
+  box-shadow: lightgrey 5px 10px;
+}
+
+.login-div {
+  color: gray;
+  background-color: whitesmoke;
+  width: 300px;
+  height: 400px;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 10px;
+  margin: auto;
+  padding: 60px 5px;
+  position: relative;
+  bottom: 23px;
+}
+
+.info-div {
+  color: gray;
+  background-color: whitesmoke;
+  width: 300px;
+  height: 250px;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 10px;
+  margin: auto;
+  padding: 40px 5px;
+  position: relative;
+  top: 100px;
+  left: 40px;
+}
+
+.img-div {
+  float: right;
+  width: 41%;
+  height: 650px;
+  position: relative;
+  right: 2%;
+  background-image: url("https://image3.mouthshut.com/images/imagesp/925947740s.png");
+}
+
+.input-field {
+  border: none;
+  border-bottom: 3px solid lightgray;
+  margin-bottom: 30px;
+  outline: none;
+  padding: 0px 0px 5px 5px;
+  width: 250px;
+}
+
+.sub-title {
+  margin: auto;
+  position: relative;
+  top: 50px;
+}
+
+#register-btn {
+  width: 50%;
+  margin-top: 10px;
+  position: relative;
+  left: 25%;
+  border: 2px solid lightgray;
+  background-color: #28a745;
+  color: white;
+}
+
