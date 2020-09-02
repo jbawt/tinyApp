@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+    .card-body {
+      background: linear-gradient(to right, lightgray, white, lightgray);
+    }
+    .updateBtn {
+      width: 70px;
+      height: 40px;
+      border-radius: 5px;
+      border: darkgrey solid 2px;
+      color: black;
+      background: linear-gradient(to right, white, lightgray, white);
+    }
+  </style>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <title>URL - TinyApp Example</title>
@@ -20,7 +33,7 @@
       <form method="POST" action="/urls/<%= shortURL %>">
         <label>New URL</label>
         <input type="text" name="longURL">
-        <button type="submit">Update</button>
+        <button class="updateBtn" type="submit">Update</button>
       </form>
     </div>
   </div>

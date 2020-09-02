@@ -1,3 +1,24 @@
+<style>
+  .logBttn {
+    border-radius: 5px;
+    border: black solid 2px;
+    background-color: #28a745;
+    padding: 5px 10px;
+    color: black;
+    opacity: 0.8;
+  }
+  .username {
+    margin-right: 25px;
+  }
+  input {
+    border-radius: 5px;
+    margin-right: 25px;
+  }
+  form {
+    height: 90%;
+  }
+</style>
+
 <header>
   <nav class="navbar navbar-expand-md navbar-dark bg-success">
     <a class="navbar-brand" href="/urls">TinyApp</a>
@@ -11,14 +32,14 @@
       </div>
     </div>
     <% if (username) { %> 
-      <h4>Logged in as: <%= username %></h4>
+      <h4 class="username">Logged in as: <%= username %></h4>
       <form method="POST" action="/logout">
-        <button type="submit">Logout</button>
+        <button class="logBttn" type="submit">Logout</button>
       </form>
     <% } else { %> 
     <form method="POST" action="/login">
       <input type="text" name="username" placeholder="username">
-      <button type="submit">Login</button>
+      <button class="logBttn" type="submit">Login</button>
     </form>
   <% } %> 
   </nav>

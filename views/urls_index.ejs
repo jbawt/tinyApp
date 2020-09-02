@@ -3,9 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+    .editBtn {
+      width: 70px;
+      height: 40px;
+      border-radius: 5px;
+      border: green solid 2px;
+      color: green;
+      background-color: white;
+      position: relative;
+      right: 8%;
+    }
+    .deleteBtn {
+      width: 70px;
+      height: 40px;
+      border-radius: 5px;
+      border: red solid 2px;
+      color: red;
+      background-color: white;
+      position: relative;
+      right: 5%;
+    }
+  </style>
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="../resources/urls.css">
   <title>TinyApp</title>
 </head>
 <body>
@@ -28,12 +51,12 @@
             <td><%= urls[url] %></td>
             <td>
               <form method="GET" action="/urls/<%= url %>">
-                <button type="submit">Edit</button>
+                <button class="editBtn" type="submit">Edit</button>
               </form>
             </td>
             <td>
               <form method="POST" action="/urls/<%= url %>/delete">
-                <button type="submit">Delete</button>
+                <button class="deleteBtn" type="submit">Delete</button>
               </form>
             </td>
           </tr>

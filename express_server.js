@@ -21,32 +21,36 @@ const urlDatabase = {
 
 // shows all stored shortened urls corresponding to their long url pairs
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"]};
+  let templateVars = {
+    urls: urlDatabase,
+    username: req.cookies["username"]
+  };
   res.render("urls_index", templateVars);
 });
 
 // renders page for creating new shortened url
 app.get("/urls/new", (req, res) => {
-  let templateVars = { username: req.cookies["username"] }
+  let templateVars = { username: req.cookies["username"] };
   res.render("urls_new", templateVars);
 });
 
+// renders users logged in and creates cookie
 app.post("/login", (req, res) => {
   res.cookie("username", req.body.username);
-  // console.log(req.body);
   res.redirect("/urls");
 });
 
+// renders page when user logs out and clears cookie
 app.post("/logout", (req, res) => {
   res.clearCookie("username", req.body.username);
   res.redirect("/urls");
-})
+});
 
 // stores new short url with random key
 app.post("/urls", (req, res) => {
   let key = generateRandomString();
-  let templateVars = { 
-    shortURL: key, 
+  let templateVars = {
+    shortURL: key,
     longURL: req.body.longURL,
     username: req.cookies["username"]
   };
@@ -56,11 +60,11 @@ app.post("/urls", (req, res) => {
 
 // renders results for shortened url
 app.get("/urls/:shortURL", (req, res) => {
-  let templateVars = { 
-    shortURL: req.params.shortURL, 
+  let templateVars = {
+    shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
     username: req.cookies["username"]
-   };
+  };
   res.render("urls_show", templateVars);
 });
 
