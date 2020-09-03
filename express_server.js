@@ -11,12 +11,15 @@ app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 
+
+
+// ========= HELPER FUNCTIONS =======//
 // random alphanumeric string
 const generateRandomString = () => {
   return Math.random().toString(36).slice(2, 8);
 };
 
-// finds stored emails
+// finds user account info
 const findUserByEmail = (email) => {
   for (const userID in users) {
     if (users[userID].email === email) {
@@ -26,14 +29,33 @@ const findUserByEmail = (email) => {
   return null;
 };
 
+// filters through url database for user specific urls
+const urlsForUsers = (id) => {
+  let userUrls = {};
+  for (const urlId in urlDatabase) {
+    if (urlDatabase[urlId].userId === id) {
+      userUrls[urlId] = urlDatabase[urlId];
+    }
+  }
+  return userUrls;
+};
+// ========================================= //
+
+
+
+// ========= BASE DATA FOR TESTING ======== //
 // url storage
 const urlDatabase = {
   "b2xVn2": {
     longURL: "http://www.lighthouselabs.ca",
-    userId: "userRandonID"
+    userId: "userRandomID"
   },
   "9sm5xK": {
     longURL: "http://www.google.com",
+    userId: "user2RandomID"
+  },
+  "4sr8th": {
+    longURL: "http://facebook.com",
     userId: "user2RandomID"
   }
 };
@@ -51,11 +73,16 @@ const users = {
     password: "dishwasher-funk"
   }
 };
+// ======================================= //
 
+
+
+// ========= GET / POST REQUESTS ======== //
 // shows all stored shortened urls corresponding to their long url pairs
 app.get("/urls", (req, res) => {
-  let templateVars = {
-    urls: urlDatabase,
+  const usersURLS = urlsForUsers(req.cookies.userId);
+  const templateVars = {
+    urls: usersURLS,
     userId: req.cookies.userId
   };
   res.render("urls_index", templateVars);
@@ -63,7 +90,7 @@ app.get("/urls", (req, res) => {
 
 // renders registration page
 app.get("/register", (req, res) => {
-  let templateVars = { userId: req.cookies.userId };
+  const templateVars = { userId: req.cookies.userId };
   res.render("user_registration", templateVars);
 });
 
@@ -103,7 +130,7 @@ app.get("/urls/new", (req, res) => {
 
 // renders users logged in and creates cookie
 app.get("/login", (req, res) => {
-  let templateVars = { userId: req.cookies.userId };
+  const templateVars = { userId: req.cookies.userId };
   res.render("user_login", templateVars);
 });
 
@@ -131,8 +158,8 @@ app.post("/logout", (req, res) => {
 
 // stores new short url with random key
 app.post("/urls", (req, res) => {
-  let key = generateRandomString();
-  let templateVars = {
+  const key = generateRandomString();
+  const templateVars = {
     shortURL: key,
     longURL: req.body.longURL,
     userId: req.cookies.userId
@@ -144,7 +171,7 @@ app.post("/urls", (req, res) => {
 
 // renders results for shortened url
 app.get("/urls/:shortURL", (req, res) => {
-  let templateVars = {
+  const templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
     userId: req.cookies.userId
@@ -161,20 +188,20 @@ app.get("/u/:shortURL", (req, res) => {
 
 // deletes stored urls and redirects to main url page
 app.post("/urls/:shortURL/delete", (req, res) => {
-  delete urlDatabase[req.params.shortURL];
-  res.redirect("/urls");
+  if (req.cookies.userId) {
+    delete urlDatabase[req.params.shortURL];
+    return res.redirect("/urls");
+  }
+  res.sendStatus(403);
 });
 
 // edits long urls
 app.post("/urls/:id", (req, res) => {
-  const templateVars = { userId: req.cookies.userId};
-  for (const id in users) {
-    if (templateVars.userId === id) {
-      urlDatabase[req.params.id].longURL = req.body.longURL;
-      return res.redirect("/urls");
-    }
+  if (req.cookies.userId) {
+    urlDatabase[req.params.id].longURL = req.body.longURL;
+    return res.redirect("/urls");
   }
-  res.redirect("/login");
+  res.sendStatus(403);
 });
 
 app.listen(PORT, () => {
