@@ -28,8 +28,14 @@ const findUserByEmail = (email) => {
 
 // url storage
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {
+    longURL: "http://www.lighthouselabs.ca",
+    userId: "userRandonID"
+  },
+  "9sm5xK": {
+    longURL: "http://www.google.com",
+    userId: "user2RandomID"
+  }
 };
 
 // registered users
@@ -79,15 +85,20 @@ app.post("/register", (req, res) => {
     password: password
   };
   users[id] = newUser;
-  console.log(users);
+
   res.cookie("userId", id);
   res.redirect("/urls");
 });
 
 // renders page for creating new shortened url
 app.get("/urls/new", (req, res) => {
-  let templateVars = { userId: req.cookies.userId };
-  res.render("urls_new", templateVars);
+  const templateVars = { userId: req.cookies.userId };
+  for (const id in users) {
+    if (templateVars.userId === id) {
+      return res.render("urls_new", templateVars);
+    }
+  }
+  res.redirect("/login");
 });
 
 // renders users logged in and creates cookie
@@ -107,7 +118,7 @@ app.post("/login", (req, res) => {
   if (userId.email === email && userId.password !== password) {
     return res.sendStatus(403);
   }
-  console.log(users);
+  
   res.cookie("userId", userId.id);
   res.redirect("/urls");
 });
@@ -126,7 +137,8 @@ app.post("/urls", (req, res) => {
     longURL: req.body.longURL,
     userId: req.cookies.userId
   };
-  urlDatabase[key] = req.body.longURL;
+  urlDatabase[key] = { longURL: req.body.longURL, userId: req.cookies.userId };
+  console.log(urlDatabase);
   res.render("urls_show", templateVars);
 });
 
@@ -134,7 +146,7 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = {
     shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL],
+    longURL: urlDatabase[req.params.shortURL].longURL,
     userId: req.cookies.userId
   };
   res.render("urls_show", templateVars);
@@ -155,8 +167,14 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 // edits long urls
 app.post("/urls/:id", (req, res) => {
-  urlDatabase[req.params.id] = req.body.longURL;
-  res.redirect("/urls");
+  const templateVars = { userId: req.cookies.userId};
+  for (const id in users) {
+    if (templateVars.userId === id) {
+      urlDatabase[req.params.id].longURL = req.body.longURL;
+      return res.redirect("/urls");
+    }
+  }
+  res.redirect("/login");
 });
 
 app.listen(PORT, () => {
