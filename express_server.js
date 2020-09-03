@@ -165,7 +165,6 @@ app.post("/urls", (req, res) => {
     userId: req.cookies.userId
   };
   urlDatabase[key] = { longURL: req.body.longURL, userId: req.cookies.userId };
-  console.log(urlDatabase);
   res.render("urls_show", templateVars);
 });
 
