@@ -33,7 +33,7 @@
 <body>
   <%-include("partials/_header") %>
   <main style="margin: 1em;">
-    <% if (!userId) { %>
+    <% if (user && !user.id) { %>
       <h3 style="text-align: center;">Please login</h3>
     <% } else { %>   
     <h3>My URLs</h3>
