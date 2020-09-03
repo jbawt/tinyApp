@@ -1,3 +1,4 @@
+// ==========  REQUIRES AND MIDDLEWARE ====== //
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -10,10 +11,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.set("view engine", "ejs");
+// ==========================================//
 
 
 
-// ========= HELPER FUNCTIONS =======//
+// ========= HELPER FUNCTIONS ==============//
 // random alphanumeric string
 const generateRandomString = () => {
   return Math.random().toString(36).slice(2, 8);
@@ -29,7 +31,7 @@ const findUserByEmail = (email) => {
   return null;
 };
 
-// filters through url database for user specific urls
+// filters user specific urls
 const urlsForUsers = (id) => {
   let userUrls = {};
   for (const urlId in urlDatabase) {
@@ -44,7 +46,6 @@ const urlsForUsers = (id) => {
 
 
 // ========= BASE DATA FOR TESTING ======== //
-// url storage
 const urlDatabase = {
   "b2xVn2": {
     longURL: "http://www.lighthouselabs.ca",
@@ -60,7 +61,6 @@ const urlDatabase = {
   }
 };
 
-// registered users
 const users = {
   "userRandomID": {
     id: "userRandomID",
@@ -78,7 +78,7 @@ const users = {
 
 
 // ========= GET / POST REQUESTS ======== //
-// shows all stored shortened urls corresponding to their long url pairs
+// shows main url page with users urls
 app.get("/urls", (req, res) => {
   const usersURLS = urlsForUsers(req.cookies.userId);
   const templateVars = {
@@ -128,7 +128,7 @@ app.get("/urls/new", (req, res) => {
   res.redirect("/login");
 });
 
-// renders users logged in and creates cookie
+// renders users login page
 app.get("/login", (req, res) => {
   const templateVars = { userId: req.cookies.userId };
   res.render("user_login", templateVars);
@@ -202,6 +202,9 @@ app.post("/urls/:id", (req, res) => {
   }
   res.sendStatus(403);
 });
+// ====================================================== //
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
