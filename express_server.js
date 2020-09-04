@@ -70,12 +70,16 @@ app.get("/urls", (req, res) => {
   const templateVars = {
     urls: usersURLS,
     user: users[req.session.userId]
-  };
+  }
+  
   res.render("urls_index", templateVars);
 });
 
 // renders registration page
 app.get("/register", (req, res) => {
+  if (req.session.userId) {
+    return res.redirect("/urls");
+  };
   const templateVars = { user: users[req.session.userId] };
   res.render("user_registration", templateVars);
 });
@@ -119,6 +123,9 @@ app.get("/urls/new", (req, res) => {
 
 // renders users login page
 app.get("/login", (req, res) => {
+  if (req.session.userId) {
+    return res.redirect("/urls");
+  };
   const templateVars = { 
     user: users[req.session.userId] 
   };
@@ -144,7 +151,7 @@ app.post("/login", (req, res) => {
 // renders page when user logs out and clears cookie
 app.post("/logout", (req, res) => {
   req.session = null;
-  res.redirect("/login");
+  res.redirect("/urls");
 });
 
 // stores new short url with random key
