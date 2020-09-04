@@ -3,10 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
-const { 
+const {
   findUserByEmail,
   urlsForUsers,
-  generateRandomString 
+  generateRandomString
 } = require('./helpers');
 
 const app = express();
@@ -70,7 +70,7 @@ app.get("/urls", (req, res) => {
   const templateVars = {
     urls: usersURLS,
     user: users[req.session.userId]
-  }
+  };
   
   res.render("urls_index", templateVars);
 });
@@ -79,7 +79,7 @@ app.get("/urls", (req, res) => {
 app.get("/register", (req, res) => {
   if (req.session.userId) {
     return res.redirect("/urls");
-  };
+  }
   const templateVars = { user: users[req.session.userId] };
   res.render("user_registration", templateVars);
 });
@@ -111,7 +111,7 @@ app.post("/register", (req, res) => {
 // renders page for creating new shortened url
 app.get("/urls/new", (req, res) => {
   const templateVars = { user: users[req.session.userId] };
-  if(templateVars.user) {
+  if (templateVars.user) {
     for (const id in users) {
       if (templateVars.user.id === id) {
         return res.render("urls_new", templateVars);
@@ -125,9 +125,9 @@ app.get("/urls/new", (req, res) => {
 app.get("/login", (req, res) => {
   if (req.session.userId) {
     return res.redirect("/urls");
-  };
-  const templateVars = { 
-    user: users[req.session.userId] 
+  }
+  const templateVars = {
+    user: users[req.session.userId]
   };
   res.render("user_login", templateVars);
 });
@@ -180,7 +180,7 @@ app.get("/urls/:shortURL", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL].longURL;
   if (!longURL.includes("http://")) {
-    let newUrl = "http://" + longURL
+    let newUrl = "http://" + longURL;
     return res.redirect(newUrl);
   }
   res.redirect(longURL);

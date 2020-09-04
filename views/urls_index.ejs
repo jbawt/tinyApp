@@ -34,13 +34,8 @@
   <%-include("partials/_header") %>
   <main style="margin: 1em;">
     <% if (!user) { %>
-<<<<<<< HEAD
-      <h1 style="text-align: center; margin-top: 50px;">Login to create your own!</h1>
-    <% } %>   
-=======
-      <h1 style="text-align: center; margin-top: 50px;">Please <a href="/login">Login</a> to create, edit, or delete your own URLs!</h1>
+      <h1 style="text-align: center; margin-top: 50px;"><a href="/login">Login</a> to create your own!</h1>
     <% } else { %>   
->>>>>>> potentialBugs
     <h3>My URLs</h3>
     <table class="table">
       <thead>
@@ -68,10 +63,7 @@
             </td>
           </tr>
         <% } %>
-<<<<<<< HEAD
-=======
       <% } %> 
->>>>>>> potentialBugs
       </tbody>
     </table>
   </main>
