@@ -1,0 +1,24 @@
+.editBtn {
+  width: 70px;
+  height: 40px;
+  border-radius: 5px;
+  border: green solid 2px;
+  color: green;
+  background-color: white;
+  position: relative;
+  right: 8%;
+}
+.deleteBtn {
+  width: 70px;
+  height: 40px;
+  border-radius: 5px;
+  border: red solid 2px;
+  color: red;
+  background-color: white;
+  position: relative;
+  right: 5%;
+}
+.h1-login {
+  text-align: center; 
+  margin-top: 50px;
+}

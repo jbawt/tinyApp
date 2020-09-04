@@ -3,28 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <style>
-    .editBtn {
-      width: 70px;
-      height: 40px;
-      border-radius: 5px;
-      border: green solid 2px;
-      color: green;
-      background-color: white;
-      position: relative;
-      right: 8%;
-    }
-    .deleteBtn {
-      width: 70px;
-      height: 40px;
-      border-radius: 5px;
-      border: red solid 2px;
-      color: red;
-      background-color: white;
-      position: relative;
-      right: 5%;
-    }
-  </style>
+  <link rel="stylesheet" href="urls_index.css">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -34,7 +13,7 @@
   <%-include("partials/_header") %>
   <main style="margin: 1em;">
     <% if (!user) { %>
-      <h1 style="text-align: center; margin-top: 50px;"><a href="/login">Login</a> to create your own!</h1>
+      <h1 class="h1-login" style=""><a href="/login">Login</a> to create your own!</h1>
     <% } else { %>   
     <h3>My URLs</h3>
     <table class="table">
