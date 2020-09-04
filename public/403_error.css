@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-div {
+  display: inline-block;
+  height: 630px;
+  width: 800px;
+  margin: auto;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  top: 20px;
+  left: 23%;
+  background-color: #28a745;
+  border-radius: 10px;
+  box-shadow: lightgrey 5px 10px;
+}

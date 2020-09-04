@@ -56,6 +56,18 @@ const users = {
 
 
 // ========= GET / POST REQUESTS ======== //
+// renders 403 error code page
+app.get("/error403", (req, res) => {
+  const templateVars = { user: users[req.session.userId] };
+  res.render("403_error", templateVars);
+});
+
+// renders 400 error code page
+app.get("/error400", (req, res) => {
+  const templateVars = { user: users[req.session.userId] };
+  res.render("400_error", templateVars);
+});
+
 // redirects to login page upon open or urls page if logged in
 app.get("/", (req, res) => {
   if (req.session.userId) {
@@ -67,11 +79,12 @@ app.get("/", (req, res) => {
 // shows main url page with users urls
 app.get("/urls", (req, res) => {
   const usersURLS = urlsForUsers(req.session.userId, urlDatabase);
+  const keysId = Object.keys(usersURLS);
   const templateVars = {
-    urls: usersURLS,
-    user: users[req.session.userId]
+    urlInDatabase: usersURLS,
+    keys: keysId,
+    user: users[req.session.userId],
   };
-  
   res.render("urls_index", templateVars);
 });
 
@@ -92,10 +105,10 @@ app.post("/register", (req, res) => {
   const user = findUserByEmail(email, users);
 
   if (!email || !password) {
-    return res.sendStatus(400);
+    return res.redirect("/error400");
   }
   if (user !== null) {
-    return res.sendStatus(400);
+    return res.redirect("/error400");
   }
   const newUser = {
     id: id,
@@ -138,10 +151,10 @@ app.post("/login", (req, res) => {
   const user = findUserByEmail(email, users);
 
   if (user === null) {
-    return res.sendStatus(403);
+    return res.redirect("/error403");
   }
   if (!bcrypt.compareSync(password, user.password)) {
-    return res.sendStatus(403);
+    return res.redirect("/error403");
   }
   
   req.session.userId = user.id;
@@ -192,7 +205,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
     delete urlDatabase[req.params.shortURL];
     return res.redirect("/urls");
   }
-  res.sendStatus(403);
+  res.redirect("/error403");
 });
 
 // edits long urls
@@ -201,7 +214,7 @@ app.post("/urls/:id", (req, res) => {
     urlDatabase[req.params.id].longURL = req.body.longURL;
     return res.redirect("/urls");
   }
-  res.sendStatus(403);
+  res.redirect("/error403");
 });
 // ====================================================== //
 
