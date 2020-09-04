@@ -34,7 +34,7 @@ const urlDatabase = {
     userId: "user2RandomID"
   },
   "4sr8th": {
-    longURL: "http://facebook.com",
+    longURL: "http://www.facebook.com",
     userId: "user2RandomID"
   }
 };
