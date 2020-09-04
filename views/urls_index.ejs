@@ -33,8 +33,8 @@
 <body>
   <%-include("partials/_header") %>
   <main style="margin: 1em;">
-    <% if (user && !user.id) { %>
-      <h3 style="text-align: center;">Please login</h3>
+    <% if (!user) { %>
+      <h1 style="text-align: center; margin-top: 50px;">Please login</h1>
     <% } else { %>   
     <h3>My URLs</h3>
     <table class="table">

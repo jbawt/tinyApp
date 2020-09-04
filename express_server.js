@@ -3,6 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
+const { 
+  findUserByEmail,
+  urlsForUsers,
+  generateRandomString 
+} = require('./helpers');
 
 const app = express();
 const PORT = 8080;
@@ -16,37 +21,6 @@ app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 // ==========================================//
-
-
-
-// ========= HELPER FUNCTIONS ==============//
-// random alphanumeric string
-const generateRandomString = () => {
-  return Math.random().toString(36).slice(2, 8);
-};
-
-// finds user account info
-const findUserByEmail = (email) => {
-  for (const userID in users) {
-    if (users[userID].email === email) {
-      return users[userID];
-    }
-  }
-  return null;
-};
-
-// filters user specific urls
-const urlsForUsers = (id) => {
-  let userUrls = {};
-  for (const urlId in urlDatabase) {
-    if (urlDatabase[urlId].userId === id) {
-      userUrls[urlId] = urlDatabase[urlId];
-    }
-  }
-  return userUrls;
-};
-// ========================================= //
-
 
 
 // ========= BASE DATA FOR TESTING ======== //
@@ -82,9 +56,17 @@ const users = {
 
 
 // ========= GET / POST REQUESTS ======== //
+// redirects to login page upon open or urls page if logged in
+app.get("/", (req, res) => {
+  if (req.session.userId) {
+    return res.redirect("/urls");
+  }
+  res.redirect("/login");
+});
+
 // shows main url page with users urls
 app.get("/urls", (req, res) => {
-  const usersURLS = urlsForUsers(req.session.userId);
+  const usersURLS = urlsForUsers(req.session.userId, urlDatabase);
   const templateVars = {
     urls: usersURLS,
     user: users[req.session.userId]
@@ -103,7 +85,7 @@ app.post("/register", (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
   const id = generateRandomString();
-  const user = findUserByEmail(email);
+  const user = findUserByEmail(email, users);
 
   if (!email || !password) {
     return res.sendStatus(400);
@@ -125,9 +107,11 @@ app.post("/register", (req, res) => {
 // renders page for creating new shortened url
 app.get("/urls/new", (req, res) => {
   const templateVars = { user: users[req.session.userId] };
-  for (const id in users) {
-    if (templateVars.user.id === id) {
-      return res.render("urls_new", templateVars);
+  if(templateVars.user) {
+    for (const id in users) {
+      if (templateVars.user.id === id) {
+        return res.render("urls_new", templateVars);
+      }
     }
   }
   res.redirect("/login");
@@ -144,7 +128,7 @@ app.get("/login", (req, res) => {
 // logs in registered users with cookie enabled
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const user = findUserByEmail(email);
+  const user = findUserByEmail(email, users);
 
   if (user === null) {
     return res.sendStatus(403);
@@ -185,10 +169,13 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-
 // redirect user to main url through short url
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL].longURL;
+  if (!longURL.includes("http://")) {
+    let newUrl = "http://" + longURL
+    return res.redirect(newUrl);
+  }
   res.redirect(longURL);
 });
 
@@ -210,7 +197,6 @@ app.post("/urls/:id", (req, res) => {
   res.sendStatus(403);
 });
 // ====================================================== //
-
 
 
 app.listen(PORT, () => {
