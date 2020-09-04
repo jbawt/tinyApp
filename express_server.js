@@ -34,7 +34,7 @@ const urlDatabase = {
     userId: "user2RandomID"
   },
   "4sr8th": {
-    longURL: "http://facebook.com",
+    longURL: "http://www.facebook.com",
     userId: "user2RandomID"
   }
 };
@@ -144,7 +144,7 @@ app.post("/login", (req, res) => {
 // renders page when user logs out and clears cookie
 app.post("/logout", (req, res) => {
   req.session = null;
-  res.redirect("/login");
+  res.redirect("/urls");
 });
 
 // stores new short url with random key
